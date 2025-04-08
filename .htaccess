@@ -1,0 +1,31 @@
+# Properly set MIME types for JavaScript modules
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+</IfModule>
+
+# Set correct content-type headers
+<IfModule mod_headers.c>
+  <FilesMatch "\.js$">
+    Header set Content-Type "application/javascript"
+  </FilesMatch>
+</IfModule>
+
+# Enable CORS for JavaScript files
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+# For Cloudflare - force correct MIME types
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # If the request is for a JS file
+  RewriteCond %{REQUEST_FILENAME} \.js$
+  # Explicitly set content type header
+  RewriteRule .* - [T=application/javascript]
+</IfModule>
+
+# Fallback - serve 404 page
+ErrorDocument 404 /index.html

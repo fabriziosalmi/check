@@ -1,0 +1,305 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Connections styling */
+.connections-info {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.connections-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.connections-list li {
+    padding: 5px 10px;
+    margin: 5px 0;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Receiver selection styling */
+#receiver-selection {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#receiver-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background-color: white;
+    min-width: 150px;
+}
+
+/* Check participant info */
+.check-participant {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+#user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#score {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Button Styles */
+button {
+    cursor: pointer;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3498db;
+    color: white;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.primary-btn {
+    font-size: 16px;
+    padding: 12px 24px;
+    background-color: #27ae60;
+}
+
+.primary-btn:hover {
+    background-color: #219653;
+}
+
+#logout-btn {
+    background-color: #e74c3c;
+}
+
+#logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+    margin: 20px 0;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Check List Styles */
+.check-list {
+    margin-top: 30px;
+}
+
+.checks-container {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.check-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.check-item:last-child {
+    border-bottom: none;
+}
+
+.check-info {
+    flex-grow: 1;
+}
+
+.check-time {
+    color: #7f8c8d;
+    font-size: 12px;
+}
+
+.check-status {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.status-pending {
+    color: #f39c12;
+}
+
+.status-confirmed {
+    color: #27ae60;
+}
+
+.status-expired {
+    color: #e74c3c;
+}
+
+.confirm-btn {
+    background-color: #27ae60;
+    margin-left: 10px;
+}
+
+.timer {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Invite Styles */
+.invite-container {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.invite-link-container {
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+#invite-link {
+    flex-grow: 1;
+    font-size: 14px;
+    padding: 8px;
+    background-color: #f0f0f0;
+    cursor: text;
+}
+
+#invite-info {
+    color: #27ae60;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Notification Styles */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.notification {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+    background-color: #27ae60;
+}
+
+.notification.error {
+    background-color: #e74c3c;
+}
+
+.notification.warning {
+    background-color: #f39c12;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #user-info {
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-buttons button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

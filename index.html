@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="./styles/globals.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            secondary: '#10B981',
+            dark: '#1F2937',
+            light: '#F9FAFB',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+      plugins: [],
+    }
+  </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div id="app" class="flex flex-col min-h-screen">
+    <!-- Header will be rendered here -->
+    <header id="header" class="bg-white shadow-sm"></header>
+    
+    <!-- Main content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+      <div id="content" class="max-w-7xl mx-auto">
+        <!-- Content will be dynamically loaded here -->
+        <div id="loading" class="flex items-center justify-center h-64">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-6">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <h2 class="text-lg font-bold">Check</h2>
+            <p class="text-sm text-gray-300">Press your friends</p>
+          </div>
+          <div class="flex space-x-4">
+
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Modal for notifications and alerts -->
+  <div id="modal-container" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+      <div id="modal-content"></div>
+      <div class="mt-6 flex justify-end">
+        <button id="modal-close" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="./js/app.js" type="module"></script>
+</body>
+</html>
