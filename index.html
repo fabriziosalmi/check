@@ -7,54 +7,54 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/your-code-here.js" crossorigin="anonymous"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 font-sans p-4">
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen p-6 max-w-3xl mx-auto">
 
   <!-- Header -->
-  <header class="mb-6 text-center">
-    <h1 class="text-3xl font-bold">Check Mate</h1>
-    <p class="text-sm text-gray-600">React fast, score smart!</p>
+  <header class="mb-8 text-center">
+    <h1 class="text-4xl font-bold text-indigo-700 mb-2">Check Mate</h1>
+    <p class="text-sm text-gray-500">Reagisci veloce, punteggia intelligente!</p>
   </header>
 
   <!-- User Switch -->
-  <section class="mb-4 flex justify-center space-x-4">
-    <button id="switchFab" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Fab</button>
-    <button id="switchDome" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Dome</button>
+  <section class="mb-6 flex justify-center space-x-4">
+    <button id="switchFab" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md font-medium">Fab</button>
+    <button id="switchDome" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-md font-medium">Dome</button>
   </section>
 
   <!-- Current User Info -->
-  <section class="mb-4 text-center">
-    <p>Current User: <span id="currentUser" class="font-bold">Fab</span></p>
-    <p>Checks Remaining Today: <span id="remainingChecks" class="font-bold">3</span></p>
+  <section class="mb-6 text-center bg-white p-4 rounded-lg shadow-sm">
+    <p class="text-lg">Utente corrente: <span id="currentUser" class="font-bold text-indigo-600">Fab</span></p>
+    <p class="text-lg">Check rimanenti oggi: <span id="remainingChecks" class="font-bold text-indigo-600">3</span></p>
   </section>
 
   <!-- Send Check Section -->
-  <section class="mb-6 bg-white p-4 rounded shadow-md">
-    <h2 class="text-xl font-semibold mb-2">Send a Check</h2>
-    <textarea id="checkMessage" class="w-full border border-gray-300 rounded p-2 mb-2" rows="3" placeholder="Optional message..."></textarea>
-    <button id="sendCheckBtn" class="w-full px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
-      <i class="fas fa-paper-plane mr-2"></i>Send Check
+  <section class="mb-8 bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Invia un Check</h2>
+    <textarea id="checkMessage" class="w-full border border-gray-200 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400" rows="3" placeholder="Messaggio opzionale..."></textarea>
+    <button id="sendCheckBtn" class="w-full px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md font-medium">
+      <i class="fas fa-paper-plane mr-2"></i>Invia Check
     </button>
   </section>
 
   <!-- Scores -->
-  <section class="mb-6 bg-white p-4 rounded shadow-md">
-    <h2 class="text-xl font-semibold mb-2">Punteggio</h2>
-    <div class="flex justify-between">
-      <p>Fab: <span id="scoreFab" class="font-bold">0</span> points</p>
-      <p>Dome: <span id="scoreDome" class="font-bold">0</span> points</p>
+  <section class="mb-8 bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Punteggio</h2>
+    <div class="flex justify-between text-lg">
+      <p>Fab: <span id="scoreFab" class="font-bold text-blue-600">0</span> punti</p>
+      <p>Dome: <span id="scoreDome" class="font-bold text-green-600">0</span> punti</p>
     </div>
   </section>
 
   <!-- Incoming Checks -->
-  <section class="mb-6 bg-white p-4 rounded shadow-md">
-    <h2 class="text-xl font-semibold mb-2">Checks in ingresso</h2>
-    <ul id="incomingChecks" class="space-y-2"></ul>
+  <section class="mb-8 bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Check in arrivo</h2>
+    <ul id="incomingChecks" class="space-y-3"></ul>
   </section>
 
   <!-- Outgoing Checks -->
-  <section class="mb-6 bg-white p-4 rounded shadow-md">
-    <h2 class="text-xl font-semibold mb-2">Checks in uscita</h2>
-    <ul id="outgoingChecks" class="space-y-2"></ul>
+  <section class="mb-8 bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Check inviati</h2>
+    <ul id="outgoingChecks" class="space-y-3"></ul>
   </section>
 
   <!-- Script Inclusions -->
