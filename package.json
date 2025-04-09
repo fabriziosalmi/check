@@ -1,0 +1,13 @@
+{
+  "name": "check-app",
+  "version": "1.0.0",
+  "description": "A simple check-sending web app for two users",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx serve"
+  },
+  "dependencies": {
+    "sql.js": "^1.8.0",
+    "serve": "^14.2.0"
+  }
+}
