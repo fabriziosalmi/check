@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check App</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --bg-color: #ffffff;
+            --text-color: #212529;
+            --border-radius: 0.3rem;
+            --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--light-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            color: var(--dark-color);
+        }
+
+        #login-panel, #game-panel {
+            background-color: var(--bg-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .user-panel {
+            display: flex;
+            justify-content: space-around; /* Changed from space-between */
+            gap: 20px;
+            background-color: #f1f3f5; /* Slightly different background */
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid #dee2e6;
+        }
+
+        .user {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid transparent;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            flex-basis: 45%; /* Ensure they take up space */
+            text-align: center;
+        }
+
+        .user h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .user p {
+            margin: 5px 0;
+        }
+
+        .user.online {
+            background-color: #e6f9f0;
+            border-color: var(--success-color);
+        }
+
+        .user.offline {
+            background-color: #f8f0f1;
+            border-color: var(--danger-color);
+            opacity: 0.7;
+        }
+
+        #fab-status, #dome-status {
+            font-weight: bold;
+        }
+
+        .user.online #fab-status, .user.online #dome-status {
+             color: var(--success-color);
+        }
+         .user.offline #fab-status, .user.offline #dome-status {
+             color: var(--danger-color);
+        }
+
+        .check-panel {
+            background-color: #e9ecef;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 1px solid #ced4da;
+        }
+
+        .active-check {
+            background-color: #cfe2ff;
+            border: 1px solid var(--primary-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            margin: 5px;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #0056b3;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        button:disabled {
+            background-color: var(--secondary-color);
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        #snooze-check {
+            background-color: var(--success-color);
+        }
+        #snooze-check:hover:not(:disabled) {
+            background-color: #1e7e34;
+        }
+
+        #logout-btn {
+            background-color: var(--danger-color);
+        }
+        #logout-btn:hover:not(:disabled) {
+            background-color: #b02a37;
+        }
+
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: var(--primary-color);
+        }
+
+        .notifications {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background-color: var(--bg-color);
+            border: 1px solid #dee2e6;
+            min-height: 100px;
+            max-height: 250px;
+            overflow-y: auto;
+            box-shadow: var(--box-shadow);
+        }
+        .notifications h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .notification {
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: var(--border-radius);
+            border: 1px solid transparent;
+            opacity: 0.95;
+        }
+
+        .notification.info {
+            background-color: #e2f3f5;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+
+        .notification.success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .notification.warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+
+        .notification.error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .logout-panel {
+             margin-top: 20px; 
+             text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Check App</h1>
+    
+    <div id="login-panel">
+        <h2>Login</h2>
+        <p>Select your username:</p>
+        <button id="login-fab">Login as Fab</button>
+        <button id="login-dome">Login as Dome</button>
+        <p id="login-error" class="notification error hidden"></p>
+    </div>
+    
+    <div id="game-panel" class="container hidden">
+        <div class="user-panel">
+            <div id="fab-user" class="user">
+                <h3>Fab</h3>
+                <p>Points: <span id="fab-points">0</span></p>
+                <p id="fab-status">Offline</p>
+            </div>
+            <div id="dome-user" class="user">
+                <h3>Dome</h3>
+                <p>Points: <span id="dome-points">0</span></p>
+                <p id="dome-status">Offline</p>
+            </div>
+        </div>
+        
+        <div class="check-panel">
+            <h2>Checks</h2>
+            <p id="check-status">No active checks</p>
+            <button id="send-check">Send Check</button>
+            
+            <div id="active-check" class="active-check hidden">
+                <p id="check-message"></p>
+                <div class="timer" id="timer">30:00</div>
+                <button id="snooze-check" class="hidden">Snooze Check</button>
+            </div>
+        </div>
+        
+        <div class="notifications" id="notifications">
+            <h3>Notifications</h3>
+            <div id="notification-list"></div>
+        </div>
+        
+        <div class="logout-panel" style="margin-top: 20px; text-align: center;">
+            <button id="logout-btn" style="background-color: #dc3545;">Logout</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Connect to socket.io
+        const socket = io();
+        
+        // For debugging socket connection
+        socket.on('connect', () => {
+            console.log('Connected to server with ID:', socket.id);
+            addNotification('Connected to server', 'info');
+        });
+
+        // DOM elements
+        const loginPanel = document.getElementById('login-panel');
+        const gamePanel = document.getElementById('game-panel');
+        const loginFabBtn = document.getElementById('login-fab');
+        const loginDomeBtn = document.getElementById('login-dome');
+        const loginError = document.getElementById('login-error');
+        const fabPoints = document.getElementById('fab-points');
+        const domePoints = document.getElementById('dome-points');
+        const fabStatus = document.getElementById('fab-status');
+        const domeStatus = document.getElementById('dome-status');
+        const fabUser = document.getElementById('fab-user');
+        const domeUser = document.getElementById('dome-user');
+        const checkStatus = document.getElementById('check-status');
+        const sendCheckBtn = document.getElementById('send-check');
+        const activeCheck = document.getElementById('active-check');
+        const checkMessage = document.getElementById('check-message');
+        const timer = document.getElementById('timer');
+        const snoozeCheckBtn = document.getElementById('snooze-check');
+        const notificationList = document.getElementById('notification-list');
+        const logoutBtn = document.getElementById('logout-btn'); // Add this line
+        
+        // Game state
+        let currentUser = null;
+        let timerInterval = null;
+        let currentCheckId = null;
+        let isActiveCheck = false; // Flag to track if there's an active check
+        
+        // Login buttons
+        loginFabBtn.addEventListener('click', () => login('fab'));
+        loginDomeBtn.addEventListener('click', () => login('dome'));
+        
+        // Send check button
+        sendCheckBtn.addEventListener('click', () => {
+            socket.emit('sendCheck');
+        });
+        
+        // Snooze check button
+        snoozeCheckBtn.addEventListener('click', () => {
+            if (currentCheckId) {
+                socket.emit('snoozeCheck', currentCheckId);
+            }
+        });
+
+        // Logout button
+        logoutBtn.addEventListener('click', () => {
+            if (currentUser) {
+                socket.emit('logout');
+                addNotification(`Logged out as ${currentUser}`, 'info');
+            }
+            currentUser = null;
+            isActiveCheck = false; // Reset active check flag on logout
+            currentCheckId = null;
+            clearCheckTimer();
+            loginPanel.classList.remove('hidden');
+            gamePanel.classList.add('hidden');
+            // Reset UI elements to default state
+            fabPoints.textContent = '0';
+            domePoints.textContent = '0';
+            fabStatus.textContent = 'Offline';
+            domeStatus.textContent = 'Offline';
+            fabUser.className = 'user offline';
+            domeUser.className = 'user offline';
+            checkStatus.textContent = 'No active checks';
+            document.getElementById('active-check').classList.add('hidden');
+            sendCheckBtn.disabled = true; // Disable send button on logout
+            loginError.classList.add('hidden');
+        });
+        
+        // Socket events
+        socket.on('connect', () => {
+            addNotification('Connected to server', 'info');
+        });
+        
+        socket.on('disconnect', () => {
+            addNotification('Disconnected from server', 'error');
+        });
+        
+        socket.on('loginError', (message) => {
+            loginError.textContent = message;
+            loginError.classList.remove('hidden');
+        });
+        
+        socket.on('error', (message) => {
+            addNotification(message, 'error');
+        });
+        
+        socket.on('gameState', ({ users, activeCheck }) => {
+            console.log('Received gameState:', { users, activeCheck });
+            // Update check status FIRST to set isActiveCheck flag correctly
+            updateActiveCheck(activeCheck);
+            // THEN update user display and button state based on users and isActiveCheck
+            updateUsers(users);
+        });
+        
+        socket.on('userUpdate', (users) => {
+            console.log('Received userUpdate:', users); // Log received user data
+            updateUsers(users);
+        });
+        
+        socket.on('newCheck', (check) => {
+            if (check.receiver === currentUser) {
+                addNotification(`${check.sender} sent you a check!`, 'warning');
+            } else if (check.sender === currentUser) {
+                addNotification(`You sent a check to ${check.receiver}`, 'info');
+            }
+            updateActiveCheck(check);
+        });
+        
+        socket.on('checkSnoozed', ({ check, snoozer, newPoints }) => {
+            if (snoozer === currentUser) {
+                addNotification(`You snoozed the check and got 2 points!`, 'success');
+            } else {
+                addNotification(`${snoozer} snoozed the check and got 2 points`, 'info');
+            }
+            clearCheckTimer();
+        });
+        
+        socket.on('checkExpired', ({ check, newPoints }) => {
+            if (check.sender === currentUser) {
+                addNotification(`Your check to ${check.receiver} expired. You got 1 point!`, 'success');
+            } else if (check.receiver === currentUser) {
+                addNotification(`You didn't snooze the check in time. ${check.sender} got 1 point.`, 'warning');
+            } else {
+                addNotification(`${check.receiver} didn't snooze the check. ${check.sender} got 1 point.`, 'info');
+            }
+            clearCheckTimer();
+        });
+        
+        // Utility functions
+        function login(username) {
+            currentUser = username;
+            socket.emit('login', username);
+            loginPanel.classList.add('hidden');
+            gamePanel.classList.remove('hidden');
+            addNotification(`Logged in as ${username}`, 'info');
+        }
+        
+        function updateUsers(users) {
+            // Update points
+            fabPoints.textContent = users.fab.points;
+            domePoints.textContent = users.dome.points;
+            
+            // Update status
+            fabStatus.textContent = users.fab.online ? 'Online' : 'Offline';
+            domeStatus.textContent = users.dome.online ? 'Online' : 'Offline';
+            
+            // Update classes
+            fabUser.className = 'user ' + (users.fab.online ? 'online' : 'offline');
+            domeUser.className = 'user ' + (users.dome.online ? 'online' : 'offline');
+            
+            // Update send button state
+            if (currentUser) {
+                const otherUser = currentUser === 'fab' ? 'dome' : 'fab';
+                const otherUserOnline = users[otherUser].online;
+                
+                // Log the inputs for the decision
+                console.log('updateUsers - Button State Check:', {
+                    currentUser,
+                    otherUser,
+                    isOtherUserOnline: otherUserOnline,
+                    isACheckActive: isActiveCheck // Log the flag value directly
+                });
+
+                // Determine button state: Enable only if other user is online AND no check is active
+                let shouldBeDisabled = true; // Default to disabled
+                if (otherUserOnline && !isActiveCheck) {
+                    shouldBeDisabled = false;
+                }
+                sendCheckBtn.disabled = shouldBeDisabled;
+                
+                console.log('updateUsers - Final Button State:', { 
+                    disabled: sendCheckBtn.disabled 
+                });
+
+            } else {
+                 // Ensure button is disabled if not logged in
+                 sendCheckBtn.disabled = true;
+                 console.log('updateUsers - User not logged in, button disabled.');
+            }
+        }
+        
+        function updateActiveCheck(check) {
+            console.log('Updating active check state:', check);
+            const activeCheckElement = document.getElementById('active-check');
+            
+            if (!check) {
+                // No active check
+                isActiveCheck = false;
+                activeCheckElement.classList.add('hidden');
+                checkStatus.textContent = 'No active checks';
+                snoozeCheckBtn.classList.add('hidden');
+                clearCheckTimer();
+                currentCheckId = null;
+                console.log('Check cleared, isActiveCheck set to:', isActiveCheck);
+            } else {
+                // A check is active
+                isActiveCheck = true;
+                currentCheckId = check.id;
+                activeCheckElement.classList.remove('hidden');
+                checkStatus.textContent = 'Active check:';
+                
+                if (check.receiver === currentUser) {
+                    checkMessage.textContent = `${check.sender} sent you a check! Snooze it within 30 minutes.`;
+                    snoozeCheckBtn.classList.remove('hidden');
+                } else if (check.sender === currentUser) {
+                    checkMessage.textContent = `You sent a check to ${check.receiver}. Waiting for them to snooze.`;
+                    snoozeCheckBtn.classList.add('hidden');
+                } else {
+                    checkMessage.textContent = `${check.sender} sent a check to ${check.receiver}.`;
+                    snoozeCheckBtn.classList.add('hidden');
+                }
+                
+                // Start timer
+                startCheckTimer(check.expiryTime);
+                console.log('Check active, isActiveCheck set to:', isActiveCheck);
+            }
+            // Let updateUsers handle the sendCheckBtn state after this function runs
+        }
+        
+        function startCheckTimer(expiryTime) {
+            clearCheckTimer();
+            
+            timerInterval = setInterval(() => {
+                const now = Date.now();
+                const timeLeft = expiryTime - now;
+                
+                if (timeLeft <= 0) {
+                    timer.textContent = '00:00';
+                    clearInterval(timerInterval);
+                    return;
+                }
+                
+                const minutes = Math.floor(timeLeft / 60000);
+                const seconds = Math.floor((timeLeft % 60000) / 1000);
+                
+                timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        
+        function clearCheckTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+        
+        function addNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            notificationList.prepend(notification);
+            
+            // Limit notifications to 10
+            if (notificationList.children.length > 10) {
+                notificationList.removeChild(notificationList.lastChild);
+            }
+        }
+    </script>
+</body>
+</html>
