@@ -174,6 +174,20 @@ function runSqlQuery(query) {
 }
 
 function initSql() {
-    // Placeholder for SQL.js initialization
-    console.log('SQL.js would be initialized here');
+    // Check if initSqlJs is available (loaded from sql-wasm.js)
+    if (typeof initSqlJs === 'function') {
+        // Load SQL.js
+        initSqlJs({
+            locateFile: function(file) {
+                return './' + file;
+            }
+        }).then(function(SQL) {
+            console.log('SQL.js initialized successfully');
+            window.SQL = SQL;
+        }).catch(function(err) {
+            console.error('Error initializing SQL.js:', err);
+        });
+    } else {
+        console.error('initSqlJs is not defined. Make sure sql-wasm.js is loaded before app.js');
+    }
 }

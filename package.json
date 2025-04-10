@@ -5,10 +5,10 @@
     "type": "module",
     "scripts": {
         "start": "vite",
-        "build": "tailwindcss -i ./src/css/input.css -o ./dist/output.css",
+        "build": "tailwindcss -i ./src/css/input.css -o ./css/tailwind.css",
         "build:css": "tailwindcss -i ./src/css/input.css -o ./css/tailwind.css --minify",
         "dev": "tailwindcss -i ./src/css/input.css -o ./css/tailwind.css --watch",
-        "watch": "tailwindcss -i ./src/css/input.css -o ./dist/output.css --watch"
+        "watch": "tailwindcss -i ./src/css/input.css -o ./css/tailwind.css --watch"
     },
     "dependencies": {
         "sql.js": "^1.8.0",
