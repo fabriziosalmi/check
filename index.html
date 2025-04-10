@@ -5,7 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Check Mate</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://kit.fontawesome.com/your-code-here.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-10px); }
+    }
+    
+    @keyframes ripple {
+      to { transform: scale(4); opacity: 0; }
+    }
+    
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+    
+    /* Improve mobile responsiveness */
+    @media (max-width: 640px) {
+      .p-6 { padding: 1rem; }
+      .text-4xl { font-size: 1.75rem; }
+    }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen p-6 max-w-3xl mx-auto">
 
@@ -17,21 +47,39 @@
 
   <!-- User Switch -->
   <section class="mb-6 flex justify-center space-x-4">
-    <button id="switchFab" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md font-medium">Fab</button>
-    <button id="switchDome" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-md font-medium">Dome</button>
+    <button id="switchFab" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md font-medium flex items-center justify-center min-w-[100px]">
+      <i class="fas fa-user mr-2"></i>Fab
+    </button>
+    <button id="switchDome" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-md font-medium flex items-center justify-center min-w-[100px]">
+      <i class="fas fa-user mr-2"></i>Dome
+    </button>
   </section>
 
   <!-- Current User Info -->
-  <section class="mb-6 text-center bg-white p-4 rounded-lg shadow-sm">
-    <p class="text-lg">Utente corrente: <span id="currentUser" class="font-bold text-indigo-600">Fab</span></p>
-    <p class="text-lg">Check rimanenti oggi: <span id="remainingChecks" class="font-bold text-indigo-600">3</span></p>
+  <section class="mb-6 text-center bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div class="flex items-center justify-center mb-2">
+      <div class="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
+        <i class="fas fa-user text-indigo-600"></i>
+      </div>
+      <p class="text-xl">Utente corrente: <span id="currentUser" class="font-bold text-indigo-600">Fab</span></p>
+    </div>
+    <div class="flex justify-center items-center mt-2">
+      <div class="bg-indigo-50 px-4 py-2 rounded-full">
+        <p class="text-lg">Check rimanenti oggi: <span id="remainingChecks" class="font-bold text-indigo-600">3</span></p>
+      </div>
+    </div>
   </section>
 
   <!-- Send Check Section -->
-  <section class="mb-8 bg-white p-6 rounded-xl shadow-md">
-    <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Invia un Check</h2>
-    <textarea id="checkMessage" class="w-full border border-gray-200 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400" rows="3" placeholder="Messaggio opzionale..."></textarea>
-    <button id="sendCheckBtn" class="w-full px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md font-medium">
+  <section class="mb-8 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+    <h2 class="text-2xl font-semibold mb-4 text-indigo-700 flex items-center">
+      <i class="fas fa-paper-plane mr-2"></i>Invia un Check
+    </h2>
+    <div class="relative">
+      <textarea id="checkMessage" class="w-full border border-gray-200 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-all duration-200" rows="3" placeholder="Messaggio opzionale..."></textarea>
+      <div class="absolute bottom-4 right-3 text-gray-400 text-xs"><span id="charCount">0</span> caratteri</div>
+    </div>
+    <button id="sendCheckBtn" class="w-full px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-md font-medium relative overflow-hidden">
       <i class="fas fa-paper-plane mr-2"></i>Invia Check
     </button>
   </section>
