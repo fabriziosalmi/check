@@ -3,15 +3,16 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-      "start": "vite",
-      "build": "vite build"
+        "start": "vite",
+        "build": "vite build"
     },
     "dependencies": {
-      "sql.js": "^1.8.0",
-      "uuid": "^9.0.0"
+        "sql.js": "^1.8.0",
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
-      "vite": "^5.0.0"
+        "@vitejs/plugin-react": "^4.3.4",
+        "vite": "^5.0.0",
+        "vite-plugin-wasm": "^3.4.1"
     }
-  }
-  
+}

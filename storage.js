@@ -10,10 +10,19 @@ export const loadFromStorage = async (initSqlJs) => {
   const base64 = localStorage.getItem(STORAGE_KEY);
   if (!base64) return null;
 
-  const binaryStr = atob(base64);
-  const binaryArray = Uint8Array.from(binaryStr, char => char.charCodeAt(0));
-  const SQL = await initSqlJs({ locateFile: file => `sql-wasm.wasm` });
-  return new SQL.Database(binaryArray);
+  try {
+    const binaryStr = atob(base64);
+    const binaryArray = new Uint8Array(binaryStr.length);
+    for (let i = 0; i < binaryStr.length; i++) {
+      binaryArray[i] = binaryStr.charCodeAt(i);
+    }
+    const SQL = await initSqlJs({ locateFile: file => `/${file}` });
+    return new SQL.Database(binaryArray);
+  } catch (error) {
+    console.error('Error loading database from storage:', error);
+    clearStorage();
+    return null;
+  }
 };
 
 export const clearStorage = () => {

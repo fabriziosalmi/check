@@ -65,7 +65,7 @@ var initSqlJs = function (moduleConfig) {
         // Since those are the only lines of code that care about module, we will undefine it. It's the most straightforward
         // of the options, and has the side effect of reducing emcc's efforts to modify the module if its output were to change in the future.
         // That's a nice side effect since we're handling the modularization efforts ourselves
-        module = undefined;
+        // module = undefined; // Removed for ES module compatibility
 
         // The emcc-generated code and shell-post.js code goes below,
         // meaning that all of it runs inside of this promise. If anything throws an exception, our promise will abort
@@ -294,11 +294,17 @@ if (typeof require === "function") {
     var worker_threads = require("worker_threads");
     var parentPort = worker_threads.parentPort;
     // eslint-disable-next-line no-undef
-    globalThis.postMessage = parentPort.postMessage.bind(parentPort);
-    parentPort.on("message", function onmessage(data) {
+    if (typeof parentPort !== 'undefined' && parentPort) {
+      globalThis.postMessage = parentPort.postMessage.bind(parentPort);
+    } else {
+      globalThis.postMessage = () => {};
+    }
+    if (typeof parentPort !== 'undefined' && parentPort) {
+      parentPort.on("message", function onmessage(data) {
         var event = { data: data };
         global_sqljs_message_handler(event);
-    });
+      });
+    }
 
     if (typeof process !== "undefined") {
         process.on("uncaughtException", function uncaughtException(err) {

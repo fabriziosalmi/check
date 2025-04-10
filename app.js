@@ -10,14 +10,23 @@ import {
 let currentUser = 'fab';
 const OTHER_USER = { fab: 'dome', dome: 'fab' };
 
+const switchUser = (user) => {
+  currentUser = user.toLowerCase();
+  render();
+};
+
 const render = () => {
-  document.getElementById('currentUser').textContent = currentUser;
+  try {
+    document.getElementById('currentUser').textContent = currentUser;
 
-  const db = window.db;
+    const db = window.db;
+    if (!db) throw new Error('Database not available');
 
-  const userRes = db.exec(`SELECT * FROM users WHERE id = ?`, [currentUser])[0];
-  const fabScore = db.exec(`SELECT score FROM users WHERE id = 'fab'`)[0].values[0][0];
-  const domeScore = db.exec(`SELECT score FROM users WHERE id = 'dome'`)[0].values[0][0];
+    const userRes = db.exec(`SELECT * FROM users WHERE id = ?`, [currentUser])[0];
+    if (!userRes) throw new Error('User not found');
+    
+    const fabScore = db.exec(`SELECT score FROM users WHERE id = 'fab'`)[0].values[0][0];
+    const domeScore = db.exec(`SELECT score FROM users WHERE id = 'dome'`)[0].values[0][0];
 
   const remaining = userRes.values[0][3];
   const lastDate = userRes.values[0][4];
@@ -30,7 +39,11 @@ const render = () => {
 
   renderIncoming();
   renderOutgoing();
-};
+  }
+  catch(e) {
+    console.error('Error rendering:', e);
+  }
+  }
 
 const renderIncoming = () => {
   const incomingList = document.getElementById('incomingChecks');
@@ -81,26 +94,19 @@ const renderOutgoing = () => {
 };
 
 const setupEvents = () => {
-  document.getElementById('switchFab').onclick = () => {
-    currentUser = 'fab';
-    render();
-  };
+  document.getElementById('switchFab').addEventListener('click', () => {
+    switchUser('Fab');
+  });
 
-  document.getElementById('switchDome').onclick = () => {
-    currentUser = 'dome';
-    render();
-  };
+  document.getElementById('switchDome').addEventListener('click', () => {
+    switchUser('Dome');
+  });
 
-  document.getElementById('sendCheckBtn').onclick = () => {
-    const msg = document.getElementById('checkMessage').value;
-    try {
-      sendCheck(currentUser, OTHER_USER[currentUser], msg);
-      document.getElementById('checkMessage').value = '';
-      render();
-    } catch (e) {
-      alert(e.message);
-    }
-  };
+  document.getElementById('sendCheckBtn').addEventListener('click', () => {
+    const message = document.getElementById('checkMessage').value;
+    const receiverId = OTHER_USER[currentUser];
+    sendCheck(currentUser, receiverId, message);
+  });
 };
 
 const loopExpireChecks = () => {
@@ -112,7 +118,9 @@ const loopExpireChecks = () => {
 
 const init = async () => {
   try {
+    // First initialize the database and wait for it to complete
     await initDatabase();
+    // Then get the database reference
     window.db = getDb(); // quick ref
     setupEvents();
     render();
