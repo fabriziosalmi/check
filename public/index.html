@@ -558,7 +558,7 @@
                 checkStatus.textContent = 'Active check:';
                 
                 if (check.receiver === currentUser) {
-                    checkMessage.textContent = `${check.sender} sent you a check! Snooze it within 30 minutes.`;
+                    checkMessage.textContent = `${check.sender} sent you a check! Snooze it before the timer expires.`;
                     snoozeCheckBtn.classList.remove('hidden');
                 } else if (check.sender === currentUser) {
                     checkMessage.textContent = `You sent a check to ${check.receiver}. Waiting for them to snooze.`;
@@ -577,6 +577,20 @@
         
         function startCheckTimer(expiryTime) {
             clearCheckTimer();
+            
+            // Initial calculation of time left
+            const now = Date.now();
+            const timeLeft = expiryTime - now;
+            
+            if (timeLeft <= 0) {
+                timer.textContent = '00:00';
+                return;
+            }
+            
+            // Initial update of timer display
+            const minutes = Math.floor(timeLeft / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
             timerInterval = setInterval(() => {
                 const now = Date.now();

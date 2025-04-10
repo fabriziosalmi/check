@@ -101,7 +101,7 @@ io.on('connection', (socket) => {
     
     // Create a new check
     const checkId = uuidv4();
-    // For testing purposes, set expiry to 2 minutes instead of 30
+    // Set expiry to 2 minutes (120,000 ms)
     const expiryTime = Date.now() + 2 * 60 * 1000; // 2 minutes from now
     
     activeCheck = {
