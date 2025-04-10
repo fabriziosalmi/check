@@ -1,0 +1,14 @@
+# Set the correct MIME type for WebAssembly files
+AddType application/wasm .wasm
+
+# Allow CORS for necessary resources
+<IfModule mod_headers.c>
+  <FilesMatch "\.(wasm|js)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+# Ensure proper content type detection
+<IfModule mod_headers.c>
+  Header unset X-Content-Type-Options
+</IfModule>

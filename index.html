@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Check Mate</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="css/tailwind.css">
   <style>
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -106,7 +106,15 @@
   </section>
 
   <!-- Script Inclusions -->
-  <script src="./sql-wasm.wasm"></script>
+  <script type="module">
+    import initSqlJs from './js/sql-wasm.js';
+    
+    const sqlPromise = initSqlJs({
+        locateFile: file => `./${file}`
+    });
+    
+    // Initialize your SQL functionality here
+  </script>
   <script src="./app.js" type="module"></script>
 
 </body>
